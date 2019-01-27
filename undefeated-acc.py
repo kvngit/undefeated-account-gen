@@ -1,3 +1,4 @@
+import os.path
 import requests
 from random import randint
 from python_anticaptcha import AnticaptchaClient, NoCaptchaTaskProxylessTask
@@ -11,6 +12,16 @@ captcha_url = 'https://undefeated.com/challenge'
 def CreateEmail(fname, lname, domain):
     email = "{}.{}{}@{}".format(fname, lname, randint(0, 99999), domain)
     return email
+
+def SaveToFile():
+    if os.path.exists("undefeated_accounts.txt"):
+        text_file = open("undefeated_accounts.txt", "a")
+        text_file.write("{}:{}\n".format(email, password))
+        text_file.close()
+    else:
+        text_file = open("undefeated_accounts.txt", "w")
+        text_file.write("{}:{}\n".format(email, password))
+        text_file.close()
 
 def CreateAccount(email):
     s = requests.session()
@@ -59,11 +70,12 @@ def CreateAccount(email):
 
         if r1.url == "https://undefeated.com/":
             print("Successfully created an account with {}".format(email))
-            
+            SaveToFile()
         else:
             print("Creation unsuccessful")
     else:
         print("Successfully created an account with {}".format(email))
+        SaveToFile()
 
 acc_num = input("Enter the amount of accounts you want: ")
 fname = input("Enter your first name: ")
