@@ -1,0 +1,4 @@
+requests
+random
+python_anticaptcha
+bs4
